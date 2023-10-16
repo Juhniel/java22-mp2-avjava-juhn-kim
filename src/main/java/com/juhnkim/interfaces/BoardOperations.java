@@ -71,6 +71,7 @@ public interface BoardOperations {
 	 */
 	boolean hasEmptyCells();
 
-	void makeComputerMove();
-	
+	void makeComputerMove(Board board); // flytta
+
+	void removeMark(int row, int col);
 }
