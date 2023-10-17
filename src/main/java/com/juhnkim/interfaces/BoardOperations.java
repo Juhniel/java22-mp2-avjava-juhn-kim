@@ -3,75 +3,80 @@ package com.juhnkim.interfaces;
 import com.juhnkim.views.Board;
 
 /**
- * This interface is meant to be implemented by board class
- * it holds methods used in board manipulation
- * Some methods specific for a specific code 
- * might be missing and should be added.
- * @author lukas kurasinski
+ * BoardOperations serves as an interface to be implemented by any class that
+ * deals with board manipulation. This interface provides a list of essential
+ * methods for board manipulation. It may be extended to include other
+ * board-specific methods.
  *
+ * @author lukas kurasinski
  */
 public interface BoardOperations {
 
 	/**
-	 * Method should check if the location row/col on the board
-	 * is a valid move. Can x or o be placed on a cell or 
-	 * is it already taken
-	 * @param x
-	 * @param o
-	 * @return
+	 * Checks if placing a mark at the given row and column is a valid move.
+	 *
+	 * @param row Row index.
+	 * @param col Column index.
+	 * @return True if the cell is empty, false otherwise.
 	 */
 	boolean isValidMove(int row, int col);
-	
-	/**
-	 * Used after checking if move is valid. Places x or o on the board.
-	 * Maybe should be modified to return a copy of the board which 
-	 * includes the additional move.
-	 * @param mark
-	 * @param row
-	 * @param col
-	 * @return
-	 */
 
+	/**
+	 * Places a mark ('X' or 'O') on the board at the specified row and column.
+	 *
+	 * @param mark The mark ('X' or 'O') to place.
+	 * @param row  Row index.
+	 * @param col  Column index.
+	 */
 	void placeMark(char mark, int row, int col);
 
 	/**
-	 * Method checks if there is a winner on the board
-	 * 3x or 3o. This method returns boolean and could be replaced
-	 * with a similar method returning the winner, x or o, 
-	 * n for no winner yet, d draw.
-	 * @param board
-	 * @return
+	 * Checks if there is a winner on the board.
+	 *
+	 * @return 10 if 'X' wins, -10 if 'O' wins, 0 if no winner.
 	 */
 	int isWinner();
-	
+
 	/**
-	 * Like isWinner but checks only if its a draw
-	 * @return
+	 * Checks if the game is a draw.
+	 *
+	 * @return True if it's a draw, false otherwise.
 	 */
 	boolean isDraw();
-	
+
 	/**
-	 * Like isWinner but checks only if x wins
-	 * @return
+	 * Checks if 'X' is the winner.
+	 *
+	 * @return True if 'X' wins, false otherwise.
 	 */
 	boolean isXWinner();
-	
+
 	/**
-	 * Like isWinner but checks only if o wins
-	 * @return
+	 * Checks if 'O' is the winner.
+	 *
+	 * @return True if 'O' wins, false otherwise.
 	 */
 	boolean isOWinner();
-	
+
 	/**
-	 * Can be used to keep ongoing count of taken cells for
-	 * quick reference. Every time a mark is placed number of
-	 * empty cells go down from 9 to 0. When 0 it should be 
-	 * a base case an a winner or draw should be checked
-	 * @return
+	 * Checks if there are any empty cells on the board.
+	 *
+	 * @return True if there are empty cells, false otherwise.
 	 */
 	boolean hasEmptyCells();
 
-	void makeComputerMove(Board board); // flytta
+	/**
+	 * Makes the computer's move.
+	 *
+	 * @param board The current state of the board.
+	 */
+	void makeComputerMove(Board board);
 
+	/**
+	 * Removes a mark ('X' or 'O') from the specified row and column.
+	 *
+	 * @param row Row index.
+	 * @param col Column index.
+	 */
 	void removeMark(int row, int col);
 }

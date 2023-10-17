@@ -1,6 +1,6 @@
 package com.juhnkim;
 
-import com.juhnkim.gamelogics.TicTacToeLogic;
+import com.juhnkim.logics.TicTacToeLogic;
 import com.juhnkim.utils.MinMax;
 import com.juhnkim.views.Board;
 

@@ -1,13 +1,18 @@
-package com.juhnkim.gamelogics;
+package com.juhnkim.logics;
 
 import com.juhnkim.interfaces.BoardOperations;
 import com.juhnkim.utils.MinMax;
 import com.juhnkim.views.Board;
 
 public class TicTacToeLogic implements BoardOperations {
-    private MinMax minMax;
-    private char[][] gameState;
+    private final MinMax minMax;
+    private final char[][] gameState;
 
+    /**
+     * Constructor initializes the game state and MinMax algorithm instance.
+     *
+     * @param minMax The MinMax algorithm instance.
+     */
     public TicTacToeLogic(MinMax minMax) {
         this.minMax = minMax;
         this.gameState = new char[3][3];
@@ -18,20 +23,46 @@ public class TicTacToeLogic implements BoardOperations {
         }
     }
 
+    /**
+     * Updates the game state with a new mark at a specific row and column.
+     *
+     * @param mark Mark to be placed ('X' or 'O').
+     * @param row  Row index.
+     * @param col  Column index.
+     */
     public void updateGameState(char mark, int row, int col) {
         gameState[row][col] = mark;
     }
 
+    /**
+     * Checks if a move is valid by verifying the cell is empty.
+     *
+     * @param row Row index.
+     * @param col Column index.
+     * @return True if the cell is empty, false otherwise.
+     */
     @Override
     public boolean isValidMove(int row, int col) {
         return gameState[row][col] == ' ';
     }
 
+    /**
+     * Places a mark ('X' or 'O') on the game board at the specified row and column.
+     *
+     * @param mark Mark to be placed.
+     * @param row  Row index.
+     * @param col  Column index.
+     */
     @Override
     public void placeMark(char mark, int row, int col) {
         gameState[row][col] = mark;
     }
 
+    /**
+     * Determines if there is a winner and returns an integer score accordingly.
+     *
+     * @return 10 if 'X' wins, -10 if 'O' wins, or 0 if no winner.
+     */
     @Override
     public int isWinner() {
         if (isXWinner()) {
@@ -43,6 +74,11 @@ public class TicTacToeLogic implements BoardOperations {
         return 0;  // default
     }
 
+    /**
+     * Determines if the game is a draw.
+     *
+     * @return True if the game is a draw, false otherwise.
+     */
     @Override
     public boolean isDraw() {
         if (isWinner() != 0) {
@@ -52,6 +88,11 @@ public class TicTacToeLogic implements BoardOperations {
         return !hasEmptyCells();
     }
 
+    /**
+     * Checks if 'X' is the winner.
+     *
+     * @return True if 'X' has won, false otherwise.
+     */
     @Override
     public boolean isXWinner() {
         // Check rows
@@ -84,7 +125,11 @@ public class TicTacToeLogic implements BoardOperations {
         return false;
     }
 
-    // sätt ihop till en
+    /**
+     * Checks if 'O' is the winner.
+     *
+     * @return True if 'O' has won, false otherwise.
+     */
     @Override
     public boolean isOWinner() {
         // Check rows
@@ -117,33 +162,45 @@ public class TicTacToeLogic implements BoardOperations {
         return false;
     }
 
+    /**
+     * Checks if there are any empty cells on the board.
+     *
+     * @return True if there are empty cells, false otherwise.
+     */
     @Override
     public boolean hasEmptyCells() {
-        // Check if all cells are filled (i.e., board is full)
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (gameState[i][j] == ' ') {
-                    return true; // found an empty cell, so it's not a draw yet
+                    return true;
                 }
             }
         }
         return false;
     }
 
+    /**
+     * Makes a computer move by finding the best possible position to place 'O'.
+     *
+     * @param board The game board.
+     */
     @Override
     public void makeComputerMove(Board board) {
         int[] bestMove = minMax.findBestMove(this, false, 9);  // Update this line based on your actual MinMax function signature
 
-        // Place the computer's mark ('O') at the best position
         if (bestMove[0] != -1 && bestMove[1] != -1) {  // Check for a valid move
-//            placeMark('O', bestMove[0], bestMove[1]);
             board.placeMark('O', bestMove[0], bestMove[1]);
         } else {
-            // Handle the case where no best move was found
             System.out.println("No valid move found.");
         }
     }
 
+    /**
+     * Removes a mark from the game board at the specified row and column.
+     *
+     * @param row Row index.
+     * @param col Column index.
+     */
     @Override
     public void removeMark(int row, int col) {
         gameState[row][col] = ' ';

@@ -1,11 +1,14 @@
 package com.juhnkim.views;
 
-import com.juhnkim.gamelogics.TicTacToeLogic;
+import com.juhnkim.logics.TicTacToeLogic;
 import com.juhnkim.utils.MinMax;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The Board class handles the graphical user interface of the Tic-Tac-Toe game.
+ */
 public class Board {
     private final TicTacToeLogic gameLogic;
     private final MinMax minMax;
@@ -13,6 +16,12 @@ public class Board {
     private final JPanel mainPanel;
     private final JButton[][] buttons;
 
+    /**
+     * Initializes the Board with the game logic and MinMax algorithm.
+     *
+     * @param gameLogic The TicTacToeLogic instance.
+     * @param minMax    The MinMax instance.
+     */
     public Board(TicTacToeLogic gameLogic, MinMax minMax) {
         this.gameLogic = gameLogic;
         this.minMax = minMax;
@@ -21,6 +30,9 @@ public class Board {
         buttons = new JButton[3][3];
     }
 
+    /**
+     * Initializes the Tic-Tac-Toe game board GUI.
+     */
     public void initializeGame() {
         mainPanel.setLayout(new GridLayout(3, 3));
 
@@ -42,7 +54,12 @@ public class Board {
         frame.setVisible(true);
     }
 
-
+    /**
+     * Handles the player's move and updates the game state.
+     *
+     * @param row Row index.
+     * @param col Column index.
+     */
     private void handlePlayerMove(int row, int col) {
         if (gameLogic.isValidMove(row, col)) {
             placeMark('X', row, col);
@@ -67,17 +84,26 @@ public class Board {
         }
     }
 
+    /**
+     * Calls findBestMove method for the player and sets the background color to green.
+     */
     public void bestMove() {
         int[] bestMove = minMax.findBestMove(gameLogic, true, 9);
-        if (bestMove[0] != -1 && bestMove[1] != -1) {  // Check for a valid move
+        if (bestMove[0] != -1 && bestMove[1] != -1) {
             System.out.println("Best move for player X: Row = " + bestMove[0] + ", Col = " + bestMove[1]);
-            buttons[bestMove[0]][bestMove[1]].setBackground(Color.GREEN);  // Set the background color to green
+            buttons[bestMove[0]][bestMove[1]].setBackground(Color.GREEN);
         } else {
-            // Handle the case where no best move was found
             System.out.println("No valid move found.");
         }
     }
 
+    /**
+     * Places a mark ('X' or 'O') on the board and updates the game state.
+     *
+     * @param mark Mark to be placed.
+     * @param row  Row index.
+     * @param col  Column index.
+     */
     public void placeMark(char mark, int row, int col) {
         if (gameLogic.isValidMove(row, col)) {
             gameLogic.updateGameState(mark, row, col);
